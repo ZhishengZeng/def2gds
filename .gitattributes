@@ -1,0 +1,7 @@
+config/lef_file filter=lfs diff=lfs merge=lfs -text
+config/tech_file filter=lfs diff=lfs merge=lfs -text
+config/util_file filter=lfs diff=lfs merge=lfs -text
+config/in_gds filter=lfs diff=lfs merge=lfs -text
+results filter=lfs diff=lfs merge=lfs -text
+results/aes_cipher_top.gds filter=lfs diff=lfs merge=lfs -text
+source/aes_cipher_top.def filter=lfs diff=lfs merge=lfs -text
