@@ -17,12 +17,10 @@ for i in range(main_layout.cells()):
   if i != top_cell_index:
     cname = main_layout.cell_name(i)
     if not cname.startswith("VIA"):
-      #print("\t" + cname)
       main_layout.cell(i).clear()
 
 # Load in the gds to merge
 print("INFO: Merging gds files...")
-print(in_gds)
 for gds in in_gds.split(","):
   if len(gds)>0:
     print("\t" + gds)
