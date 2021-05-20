@@ -1,25 +1,46 @@
 #!/bin/bash
 
-### setting ###
+###############
+### SETTING ###
+###############
+
 FOUNDRY="sky130"
 DESIGN_NAME="aes_cipher_top"
 
-### running ###
-SHELL_FOLDER=$(cd "$(dirname "$0")";pwd)
+#####################
+### DIR STRUCTURE ###
+#####################
 
-for gds_file in $SHELL_FOLDER"/config/in_gds/"$FOUNDRY"/"*.gds
+ROOT_DIR=$(cd "$(dirname "$0")";pwd)
+DEF_DIR=$ROOT_DIR"/source/"
+RESULT_DIR=$ROOT_DIR"/result/"
+GDSLIB_DIR=$ROOT_DIR"/config/in_gds/"$FOUNDRY"/"
+TECH_DIR=$ROOT_DIR"/config/tech_file/"$FOUNDRY"/"
+UTIL_DIR=$ROOT_DIR"/config/util_file/"
+
+###############
+### RUNNING ###
+###############
+
+if [ ! -d $RESULT_DIR ];then
+  mkdir $RESULT_DIR
+fi  
+
+for temp in $GDSLIB_DIR*.gds
 do
-gds_files=$gds_files$gds_file","
+GDS_FILES=$GDS_FILES$temp","
 done
 
-for def_file in $SHELL_FOLDER"/source/"*.def
+for DEF_FILE in $DEF_DIR*.def
 do
-klayout -zz -rd design_name=$DESIGN_NAME \
--rd in_def=$def_file \
--rd in_gds=$gds_files \
--rd out_gds=$SHELL_FOLDER"/results/"$(basename $def_file .def)".gds" \
--rd tech_file=$SHELL_FOLDER"/config/tech_file/"$FOUNDRY"/"$FOUNDRY".lyt" \
--rm $SHELL_FOLDER"/config/util_file/def2gds.py"
+klayout \
+-zz \
+-rd design_name=$DESIGN_NAME \
+-rd in_def=$DEF_FILE \
+-rd in_gds=$GDS_FILES \
+-rd out_gds=$RESULT_DIR$(basename $DEF_FILE .def)".gds" \
+-rd tech_file=$TECH_DIR$FOUNDRY".lyt" \
+-rm $UTIL_DIR"def2gds.py"
 done
 
 echo "**********************************"
